@@ -135,5 +135,6 @@ ScrollTrigger.create({
                 "--after-opacity": "1",
             });
         }
+        /*some code*/
     }
 })
