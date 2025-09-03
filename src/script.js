@@ -73,7 +73,7 @@ function getBezierPozition(t) {
     return { x, y };
 }
 
-function getImgProgressState (index, overallProgress) {
+function getImgProgressState(index, overallProgress) {
     const startTime = index * config.gap;
     const endTime = startTime + config.speed;
     if (overallProgress < startTime) return -1;
@@ -81,7 +81,7 @@ function getImgProgressState (index, overallProgress) {
     return (overallProgress - startTime) / config.speed;
 }
 
-imageElements.forEach((img) => gsap.set(img, { opacity:0 }));
+imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
 
 ScrollTrigger.create({
     trigger: ".spotlight",
@@ -92,7 +92,7 @@ ScrollTrigger.create({
     scrub: 1,
     onUpdate: (self) => {
         const progress = self.progress;
-        if(progress <= 0.2) {
+        if (progress <= 0.2) {
             const animationProgress = progress / 0.2;
             const moveDistance = window.innerWidth * 0.6;
             gsap.set(introTextElements[0], {
@@ -111,11 +111,28 @@ ScrollTrigger.create({
             gsap.set(".spotlight-bg-img img", {
                 transform: `scale(${1.5 - animationProgress * 0.5})`,
             });
-            imageElements.forEach((img) => gsap.set(img, { opacity:0 }));
+            imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
             spotlightHeader.style.opacity = "0";
             gsap.set(titlesContainerElement, {
                 "--before-opacity": "0",
                 "--after-opacity": "0",
+            });
+        } else if (progress > 0.2 && progress <= 0.25) {
+            gsap.set(".spotlight-bg-img", {
+                transform: "scale(1)"
+            });
+            gsap.set(".spotlight-bg-img img", {
+                transform: "scale(1)"
+            });
+
+            gsap.set(introTextElements[0], { opacity: 0 });
+            gsap.set(introTextElements[1], { opacity: 0 });
+
+            imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
+            spotlightHeader.style.opacity = "1";
+            gsap.set(titlesContainerElement, {
+                "--before-opacity": "1",
+                "--after-opacity": "1",
             });
         }
     }
