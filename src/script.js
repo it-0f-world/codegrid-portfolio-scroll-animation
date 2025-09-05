@@ -41,7 +41,7 @@ spotlightItems.forEach((item, index) => {
     titlesContainer.appendChild(titleElement);
 
     const imgWrapper = document.createElement("div");
-    imgWrapper.className = ("spotlight-img");
+    imgWrapper.className = "spotlight-img";
     const imgElement = document.createElement("img");
     imgElement.src = item.img;
     imgElement.alt = "";
@@ -118,12 +118,8 @@ ScrollTrigger.create({
                 "--after-opacity": "0",
             });
         } else if (progress > 0.2 && progress <= 0.25) {
-            gsap.set(".spotlight-bg-img", {
-                transform: "scale(1)"
-            });
-            gsap.set(".spotlight-bg-img img", {
-                transform: "scale(1)"
-            });
+            gsap.set(".spotlight-bg-img", { transform: "scale(1)" });
+            gsap.set(".spotlight-bg-img img", { transform: "scale(1)" });
 
             gsap.set(introTextElements[0], { opacity: 0 });
             gsap.set(introTextElements[1], { opacity: 0 });
@@ -134,7 +130,66 @@ ScrollTrigger.create({
                 "--before-opacity": "1",
                 "--after-opacity": "1",
             });
+        } else if (progress > 0.25 && progress <= 0.95) {
+            gsap.set(".spotlight-bg-img", { transform: "scale(1)" });
+            gsap.set(".spotlight-bg-img img", { transform: "scale(1)" });
+
+            gsap.set(introTextElements[0], { opacity: 0 });
+            gsap.set(introTextElements[1], { opacity: 0 });
+
+            spotlightHeader.style.opacity = "1";
+            gsap.set(titlesContainerElement, {
+                "--before-opacity": "1",
+                "--after-opacity": "1",
+            });
+            const switchProgress = (progress - 0.25) / 0.7;
+            const viewportHeight = window.innerHeight;
+            const titlesContainerHeight = titlesContainer.scrollHeight;
+            const startPosition = viewportHeight;
+            const targetPosition = -titlesContainerHeight;
+            const totalDistance = startPosition - targetPosition;
+            const currentY = startPosition - switchProgress * totalDistance;
+
+            gsap.set(".spotlight-titles", {
+                transform: `translateY(${currentY}px)`,
+            })
+
+            imageElements.forEach((img, index) => {
+                const imageProgress = getImgProgressState(index, switchProgress);
+
+                if (imageProgress < 0 || imageProgress > 1) {
+                    gsap.set(img, { opacity: 0 });
+                } else {
+                    const pos = getBezierPozition(imageProgress);
+                    gsap.set(img, {
+                        x: pos.x - 100,
+                        y: pos.y - 75,
+                        opacity: 1,
+                    });
+                }
+            });
+            const viewportMiddle = viewportHeight / 2;
+            let closestIndex = 0;
+            let closestDistance = Infinity;
+
+            titleElements.forEach((titles, index) => {
+                const titleRect = titles.getBoundingClientRect();
+                const titleCenter = titleRect.top + titleRect.height / 2;
+                const distanceFromCenter = Math.abs(titleCenter - viewportMiddle);
+
+                if (distanceFromCenter < closestDistance) {
+                    closestDistance = distanceFromCenter;
+                    closestIndex = index;
+                }
+            });
+            if (closestIndex !== currentActiveIndex) {
+                if (titleElements[currentActiveIndex]) {
+                    titleElements[currentActiveIndex].style.opacity = "0.25";
+                }
+                titleElements[closestIndex].style.opacity = "1";
+                document.querySelector(".spotlight-bg-img img").src = spotlightItems[closestIndex].img;
+                currentActiveIndex = closestIndex;
+            }
         }
-        /*some code*/
     }
 })

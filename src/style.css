@@ -108,8 +108,8 @@ section {
 .spotlight-titles-container::before {
     top: 0;
     left: 0;
-    transform: rotate(45deg) translate(-7rem);
-    opacity: var(--after-opacity);
+    transform: rotate(-45deg) translate(-7rem);
+    opacity: var(--before-opacity);
 }
 
 .spotlight-titles-container::after {
@@ -172,12 +172,12 @@ spotlight-titles h1 {
 }
 
 .spotlight-titles-container {
-    clip-path: none;
+    clip-path: block;
 }
 
 .spotlight-titles-container::before,
 .spotlight-titles-container::after {
-    display: none;
+    display: block;
 }
 
 .spotlight-titles {
@@ -185,9 +185,5 @@ spotlight-titles h1 {
 }
 
 .spotlight-header {
-    display: none;
-}
-
-@media (max-width: 1200px) {
-
+    display: block;
 }
