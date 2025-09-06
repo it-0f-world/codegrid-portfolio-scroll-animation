@@ -124,6 +124,7 @@ section {
     left: 15%;
     width: 75%;
     height: 100%;
+    color: aliceblue;
     display: flex;
     flex-direction: column;
     gap: 5rem;
@@ -169,21 +170,4 @@ spotlight-titles h1 {
 .intro, .outro {
     padding: 2rem;
     text-align: center;
-}
-
-.spotlight-titles-container {
-    clip-path: block;
-}
-
-.spotlight-titles-container::before,
-.spotlight-titles-container::after {
-    display: block;
-}
-
-.spotlight-titles {
-    left: 0;
-}
-
-.spotlight-header {
-    display: block;
 }

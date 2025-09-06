@@ -53,12 +53,12 @@ spotlightItems.forEach((item, index) => {
 const titleElements = titlesContainer.querySelectorAll("h1");
 let currentActiveIndex = 0;
 
-const containerWidth = window.innerWidth * 0.3;
+const containerWidth = window.innerWidth * 0.4;
 const containerHeight = window.innerHeight;
-const arcStartX = containerWidth - 220;
+const arcStartX = containerWidth + 220;
 const arcStartY = -200;
 const arcEndY = containerHeight + 200;
-const arcControlPointX = arcStartX - config.arcRadius;
+const arcControlPointX = arcStartX + config.arcRadius;
 const arcControlPointY = containerHeight / 2;
 
 function getBezierPozition(t) {
@@ -190,6 +190,12 @@ ScrollTrigger.create({
                 document.querySelector(".spotlight-bg-img img").src = spotlightItems[closestIndex].img;
                 currentActiveIndex = closestIndex;
             }
+        } else if (progress > 0.95) {
+            spotlightHeader.style.opacity = "0";
+            gsap.set(titlesContainerElement, {
+                "--before-opacity": "0",
+                "--after-opacity": "0",
+            })
         }
     }
 })
